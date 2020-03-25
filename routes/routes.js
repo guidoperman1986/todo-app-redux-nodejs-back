@@ -95,7 +95,24 @@ app.put('/todo/:id',(req,res)=>{
     var body = req.body;
     var id = req.params.id
 
-    Todo.findByIdAndUpdate(id, body,(err,todoUpdated)=>{
+    Todo.findById(id,(err, todo)=>{
+
+        todo.todo = body.todo;
+        todo.completado = body.completado 
+        /* console.log(todo); */
+
+        todo.save((err,todoUpdated)=>{
+
+
+            res.status(200).json({
+                ok:true,
+                todo:todoUpdated
+            })
+        })
+    })
+    
+
+    /* Todo.findByIdAndUpdate(id, body,(err,todoUpdated)=>{
         if (err){
             return res.status(500).json({
                 ok:false,
@@ -103,7 +120,7 @@ app.put('/todo/:id',(req,res)=>{
                 errors: err
             })
         }
-
+        
         if (!todoUpdated){
             return res.status(400).json({
                 ok:false,
@@ -111,12 +128,10 @@ app.put('/todo/:id',(req,res)=>{
                 error: error
             })
         }
+        console.log(body);
 
-        res.status(200).json({
-            ok:true,
-            todo:todoUpdated
-        })
-    })
+        
+    }) */
 
 })
 
